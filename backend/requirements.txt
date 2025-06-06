@@ -1,0 +1,9 @@
+flask==3.0.2
+flask-cors==4.0.0
+sounddevice==0.4.7
+openai-whisper>=1.4
+transformers==4.52.4
+torch             # grabs latest 3.11 CPU wheel
+TTS==0.22.0
+numpy==1.26.*
+pytest==8.2.1
