@@ -1,166 +1,68 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  --background: 0 0% 100%;
-  --foreground: 20 14.3% 4.1%;
-  --muted: 60 4.8% 95.9%;
-  --muted-foreground: 25 5.3% 44.7%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 20 14.3% 4.1%;
-  --card: 0 0% 100%;
-  --card-foreground: 20 14.3% 4.1%;
-  --border: 20 5.9% 90%;
-  --input: 20 5.9% 90%;
-  --primary: 207 90% 54%;
-  --primary-foreground: 211 100% 99%;
-  --secondary: 60 4.8% 95.9%;
-  --secondary-foreground: 24 9.8% 10%;
-  --accent: 60 4.8% 95.9%;
-  --accent-foreground: 24 9.8% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 20 14.3% 4.1%;
-  --radius: 0.5rem;
-  
-  /* Custom therapy theme colors */
-  --therapy-50: 239 100% 97%; /* #EEF2FF */
-  --therapy-100: 239 100% 93%; /* #E0E7FF */
-  --therapy-500: 238 76% 60%; /* #4F46E5 */
-  --therapy-600: 238 82% 55%; /* #4338CA */
-  --therapy-700: 237 83% 48%; /* #3730A3 */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.dark {
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --primary: 207 90% 54%;
-  --primary-foreground: 211 100% 99%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --ring: 240 4.9% 83.9%;
-  --radius: 0.5rem;
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
 }
 
-@layer base {
-  * {
-    @apply border-border;
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
   }
-
-  body {
-    @apply font-sans antialiased bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  a:hover {
+    color: #747bff;
   }
-}
-
-/* Custom animations for therapeutic app */
-@keyframes pulse-soft {
-  0%, 100% {
-    opacity: 1;
+  button {
+    background-color: #f9f9f9;
   }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-@keyframes bounce-gentle {
-  0%, 20%, 53%, 80%, 100% {
-    transform: translate3d(0,0,0);
-  }
-  40%, 43% {
-    transform: translate3d(0, -15px, 0);
-  }
-  70% {
-    transform: translate3d(0, -8px, 0);
-  }
-  90% {
-    transform: translate3d(0, -3px, 0);
-  }
-}
-
-.animate-pulse-soft {
-  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.animate-bounce-gentle {
-  animation: bounce-gentle 1s infinite;
-}
-
-/* Custom therapy color utilities */
-.bg-therapy-50 {
-  background-color: hsl(var(--therapy-50));
-}
-
-.bg-therapy-100 {
-  background-color: hsl(var(--therapy-100));
-}
-
-.bg-therapy-500 {
-  background-color: hsl(var(--therapy-500));
-}
-
-.bg-therapy-600 {
-  background-color: hsl(var(--therapy-600));
-}
-
-.bg-therapy-700 {
-  background-color: hsl(var(--therapy-700));
-}
-
-.text-therapy-500 {
-  color: hsl(var(--therapy-500));
-}
-
-.text-therapy-600 {
-  color: hsl(var(--therapy-600));
-}
-
-.text-therapy-700 {
-  color: hsl(var(--therapy-700));
-}
-
-.border-therapy-500 {
-  border-color: hsl(var(--therapy-500));
-}
-
-/* Smooth focus states for accessibility */
-.focus-visible\:ring-therapy-500:focus-visible {
-  --tw-ring-color: hsl(var(--therapy-500));
-}
-
-/* Enhanced button hover effects */
-.btn-therapy {
-  @apply bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200;
-}
-
-/* Calming scrollbar styling */
-.scrollbar-therapy::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scrollbar-therapy::-webkit-scrollbar-track {
-  background: hsl(var(--therapy-50));
-  border-radius: 3px;
-}
-
-.scrollbar-therapy::-webkit-scrollbar-thumb {
-  background: hsl(var(--therapy-500));
-  border-radius: 3px;
-}
-
-.scrollbar-therapy::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--therapy-600));
 }
