@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import Login from "./Login";
+import Signup from "./Signup";
 import Sentiment from "./Sentiment";
 import TTS from "./TTS";
 import STT from "./STT";
@@ -16,6 +17,7 @@ export default function App() {
       <NavBar />
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/sentiment" element={<PrivateRoute><Sentiment /></PrivateRoute>} />
         <Route path="/tts" element={<PrivateRoute><TTS /></PrivateRoute>} />
         <Route path="/stt" element={<PrivateRoute><STT /></PrivateRoute>} />
