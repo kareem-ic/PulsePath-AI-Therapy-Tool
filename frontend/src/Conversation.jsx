@@ -9,6 +9,13 @@ export default function Conversation() {
   const listRef = useRef(null);
 
   useEffect(() => {
+    // Load chat history on mount
+    apiRequest("/chat-history").then(res => {
+      if (res.history) setMessages(res.history);
+    });
+  }, []);
+
+  useEffect(() => {
     // Scroll to bottom on new message
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
