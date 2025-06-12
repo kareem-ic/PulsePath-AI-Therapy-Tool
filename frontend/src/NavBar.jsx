@@ -20,6 +20,7 @@ export default function NavBar() {
         <Button color="inherit" component={Link} to="/sentiment">Sentiment</Button>
         <Button color="inherit" component={Link} to="/tts">TTS</Button>
         <Button color="inherit" component={Link} to="/stt">STT</Button>
+        <Button color="inherit" component={Link} to="/conversation">Conversation</Button>
         {loggedIn ? (
           <Button color="inherit" onClick={handleLogout}>Logout</Button>
         ) : (
