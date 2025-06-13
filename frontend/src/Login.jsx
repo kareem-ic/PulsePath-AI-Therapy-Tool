@@ -18,7 +18,7 @@ export default function Login() {
       const res = await apiRequest("/login", "POST", { username, password });
       if (res.access_token) {
         setToken(res.access_token);
-        navigate("/sentiment");
+        navigate("/conversation");
       } else {
         setError(res.error || "Login failed");
       }

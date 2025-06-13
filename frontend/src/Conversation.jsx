@@ -26,26 +26,25 @@ const bubbleStyles = {
 };
 
 const moodColors = {
-  positive: "success.main",
-  negative: "error.main",
-  neutral: "grey.500",
-  sad: "#1976d2",
   happy: "#ffd600",
-  angry: "#ff7043"
+  sad: "#1976d2",
+  angry: "#ff7043",
+  anxious: "#ba68c8",
+  excited: "#00e676",
+  neutral: "#bdbdbd",
+  overwhelmed: "#ffb300"
 };
 
 function MoodBar({ mood }) {
-  // Show last 10 moods as emojis
+  // Show a single color bar for the most recent mood
   if (!mood || mood.length === 0) return null;
-  const last10 = mood.slice(-10);
+  const last = mood[mood.length - 1];
+  const color = moodColors[last.sentiment] || "#bdbdbd";
   return (
     <Box mb={2} display="flex" alignItems="center" gap={1}>
       <Typography variant="subtitle2">Mood trend:</Typography>
-      {last10.map((m, i) => (
-        <Box key={i} fontSize={24} title={`${m.sentiment} (${Math.round(m.confidence * 100)}%)`}>
-          {m.emoji || "❓"}
-        </Box>
-      ))}
+      <Box width={48} height={20} borderRadius={2} bgcolor={color} title={`${last.sentiment} (${Math.round(last.confidence * 100)}%)`} />
+      <Typography variant="body2">{last.sentiment} ({Math.round(last.confidence * 100)}%)</Typography>
     </Box>
   );
 }
@@ -135,7 +134,15 @@ export default function Conversation() {
           {messages.map((msg, idx) => (
             <Box key={idx} sx={bubbleStyles[msg.sender]}>
               <strong>{msg.sender === "user" ? "You" : "AI"}:</strong> {msg.text}
-              {msg.label && (
+              {msg.sender === "user" && msg.label && (
+                <Chip
+                  label={`Sentiment: ${msg.label} (${(msg.confidence * 100).toFixed(0)}%)`}
+                  size="small"
+                  color={msg.label === "positive" ? "success" : msg.label === "negative" ? "error" : "default"}
+                  sx={{ ml: 1 }}
+                />
+              )}
+              {msg.sender === "ai" && msg.label && (
                 <Chip
                   label={`${msg.label} (${(msg.confidence * 100).toFixed(0)}%)`}
                   size="small"

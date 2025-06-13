@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import NavBar from "./NavBar";
 import Login from "./Login";
 import Signup from "./Signup";
-import Sentiment from "./Sentiment";
 import TTS from "./TTS";
 import STT from "./STT";
 import Conversation from "./Conversation";
@@ -19,11 +18,10 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/sentiment" element={<PrivateRoute><Sentiment /></PrivateRoute>} />
         <Route path="/tts" element={<PrivateRoute><TTS /></PrivateRoute>} />
         <Route path="/stt" element={<PrivateRoute><STT /></PrivateRoute>} />
         <Route path="/conversation" element={<PrivateRoute><Conversation /></PrivateRoute>} />
-        <Route path="*" element={<Navigate to="/sentiment" />} />
+        <Route path="*" element={<Navigate to="/conversation" />} />
       </Routes>
     </Router>
   );

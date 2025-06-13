@@ -23,7 +23,7 @@ export default function Signup() {
         const loginRes = await apiRequest("/login", "POST", { username, password });
         if (loginRes.access_token) {
           setToken(loginRes.access_token);
-          navigate("/sentiment");
+          navigate("/conversation");
         } else {
           setSuccess("Signup successful! Please log in.");
           navigate("/login");

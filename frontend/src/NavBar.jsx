@@ -17,7 +17,6 @@ export default function NavBar() {
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           PulsePath AI Therapy
         </Typography>
-        <Button color="inherit" component={Link} to="/sentiment">Sentiment</Button>
         <Button color="inherit" component={Link} to="/tts">TTS</Button>
         <Button color="inherit" component={Link} to="/stt">STT</Button>
         <Button color="inherit" component={Link} to="/conversation">Conversation</Button>
