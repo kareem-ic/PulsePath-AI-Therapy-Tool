@@ -35,14 +35,16 @@ const moodColors = {
 };
 
 function MoodBar({ mood }) {
-  // Show last 10 moods as colored bars
+  // Show last 10 moods as emojis
   if (!mood || mood.length === 0) return null;
   const last10 = mood.slice(-10);
   return (
     <Box mb={2} display="flex" alignItems="center" gap={1}>
       <Typography variant="subtitle2">Mood trend:</Typography>
       {last10.map((m, i) => (
-        <Box key={i} width={24} height={16} borderRadius={2} bgcolor={moodColors[m.sentiment] || "grey.300"} title={`${m.sentiment} (${Math.round(m.confidence * 100)}%)`} />
+        <Box key={i} fontSize={24} title={`${m.sentiment} (${Math.round(m.confidence * 100)}%)`}>
+          {m.emoji || "❓"}
+        </Box>
       ))}
     </Box>
   );
