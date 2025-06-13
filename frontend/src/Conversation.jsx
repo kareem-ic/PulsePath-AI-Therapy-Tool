@@ -1,27 +1,35 @@
 import { useState, useRef, useEffect } from "react";
-import { TextField, Button, Container, Typography, Box, Paper, List, ListItem, ListItemText, Chip, Alert, Stack, LinearProgress } from "@mui/material";
+import { TextField, Button, Container, Typography, Box, Paper, Chip, Alert, Stack } from "@mui/material";
 import { apiRequest } from "./api";
+import { motion, AnimatePresence } from "framer-motion";
 
 const bubbleStyles = {
   user: {
-    background: "#1976d2",
+    background: "linear-gradient(120deg, #5f6fff 60%, #00e6d8 100%)",
     color: "white",
     alignSelf: "flex-end",
-    borderRadius: "16px 16px 4px 16px",
-    padding: "10px 16px",
+    borderRadius: "18px 18px 6px 18px",
+    padding: "14px 20px",
     maxWidth: "75%",
-    marginBottom: 4,
-    marginLeft: "auto"
+    marginBottom: 8,
+    marginLeft: "auto",
+    boxShadow: "0 2px 16px 0 rgba(95,111,255,0.10)",
+    fontWeight: 500,
+    fontSize: 17
   },
   ai: {
-    background: "#f1f1f1",
+    background: "rgba(255,255,255,0.35)",
     color: "#222",
     alignSelf: "flex-start",
-    borderRadius: "16px 16px 16px 4px",
-    padding: "10px 16px",
+    borderRadius: "18px 18px 18px 6px",
+    padding: "14px 20px",
     maxWidth: "75%",
-    marginBottom: 4,
-    marginRight: "auto"
+    marginBottom: 8,
+    marginRight: "auto",
+    boxShadow: "0 2px 16px 0 rgba(0,230,216,0.10)",
+    fontWeight: 500,
+    fontSize: 17,
+    backdropFilter: "blur(8px)"
   }
 };
 
@@ -36,7 +44,6 @@ const moodColors = {
 };
 
 function MoodBar({ mood }) {
-  // Show a single color bar for the most recent mood
   if (!mood || mood.length === 0) return null;
   const last = mood[mood.length - 1];
   const color = moodColors[last.sentiment] || "#bdbdbd";
@@ -51,14 +58,13 @@ function MoodBar({ mood }) {
 
 export default function Conversation() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]); // { sender: "user"|"ai", text, label, confidence }
+  const [messages, setMessages] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [mood, setMood] = useState([]);
   const listRef = useRef(null);
 
   useEffect(() => {
-    // Load chat history and mood history on mount
     apiRequest("/chat-history").then(res => {
       if (res.history) setMessages(res.history);
     });
@@ -68,7 +74,6 @@ export default function Conversation() {
   }, []);
 
   useEffect(() => {
-    // Scroll to bottom on new message
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
@@ -94,7 +99,6 @@ export default function Conversation() {
             confidence: res.confidence
           }
         ]);
-        // Refresh mood history
         apiRequest("/mood-history").then(res => {
           if (res.mood) setMood(res.mood);
         });
@@ -126,47 +130,116 @@ export default function Conversation() {
   return (
     <Container maxWidth="sm">
       <Box mt={8}>
-        <Typography variant="h5" align="center" gutterBottom>Conversation</Typography>
-        {error && <Alert severity="error">{error}</Alert>}
-        {success && <Alert severity="success">{success}</Alert>}
+        <Typography variant="h5" align="center" gutterBottom sx={{ fontWeight: 700, letterSpacing: 1, color: "#222" }}>
+          Conversation
+        </Typography>
+        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
         <MoodBar mood={mood} />
-        <Paper variant="outlined" sx={{ height: 350, overflowY: "auto", p: 2, mb: 2, display: 'flex', flexDirection: 'column' }} ref={listRef}>
-          {messages.map((msg, idx) => (
-            <Box key={idx} sx={bubbleStyles[msg.sender]}>
-              <strong>{msg.sender === "user" ? "You" : "AI"}:</strong> {msg.text}
-              {msg.sender === "user" && msg.label && (
-                <Chip
-                  label={`Sentiment: ${msg.label} (${(msg.confidence * 100).toFixed(0)}%)`}
-                  size="small"
-                  color={msg.label === "positive" ? "success" : msg.label === "negative" ? "error" : "default"}
-                  sx={{ ml: 1 }}
-                />
-              )}
-              {msg.sender === "ai" && msg.label && (
-                <Chip
-                  label={`${msg.label} (${(msg.confidence * 100).toFixed(0)}%)`}
-                  size="small"
-                  color={msg.label === "positive" ? "success" : msg.label === "negative" ? "error" : "default"}
-                  sx={{ ml: 1 }}
-                />
-              )}
-            </Box>
-          ))}
+        <Paper
+          variant="outlined"
+          sx={{
+            height: 370,
+            overflowY: "auto",
+            p: 2,
+            mb: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            borderRadius: 5,
+            background: "rgba(255,255,255,0.25)",
+            boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.10)",
+            backdropFilter: "blur(12px)"
+          }}
+          ref={listRef}
+        >
+          <AnimatePresence initial={false}>
+            {messages.map((msg, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.32, type: "spring" }}
+                style={{ display: "flex" }}
+              >
+                <Box sx={bubbleStyles[msg.sender]}>
+                  <strong>{msg.sender === "user" ? "You" : "AI"}:</strong> {msg.text}
+                  {msg.sender === "user" && msg.label && (
+                    <Chip
+                      label={`Sentiment: ${msg.label} (${(msg.confidence * 100).toFixed(0)}%)`}
+                      size="small"
+                      color={msg.label === "positive" ? "success" : msg.label === "negative" ? "error" : "default"}
+                      sx={{ ml: 1 }}
+                    />
+                  )}
+                  {msg.sender === "ai" && msg.label && (
+                    <Chip
+                      label={`${msg.label} (${(msg.confidence * 100).toFixed(0)}%)`}
+                      size="small"
+                      color={msg.label === "positive" ? "success" : msg.label === "negative" ? "error" : "default"}
+                      sx={{ ml: 1 }}
+                    />
+                  )}
+                </Box>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </Paper>
         <Stack direction="row" spacing={2} mb={2}>
-          <form onSubmit={handleSend} style={{ display: "flex", flex: 1, gap: 8 }}>
+          <motion.form
+            onSubmit={handleSend}
+            style={{ display: "flex", flex: 1, gap: 8 }}
+            initial={false}
+            animate={{ scale: 1 }}
+            whileFocus={{ scale: 1.01 }}
+          >
             <TextField
               label="Type your message..."
               value={input}
               onChange={e => setInput(e.target.value)}
               fullWidth
               autoFocus
+              sx={{
+                background: "rgba(255,255,255,0.7)",
+                borderRadius: 3,
+                boxShadow: "0 2px 8px 0 rgba(95,111,255,0.08)",
+                input: { fontWeight: 500, fontSize: 16 }
+              }}
             />
-            <Button type="submit" variant="contained" color="primary">Send</Button>
-          </form>
-          <Button variant="outlined" color="secondary" onClick={handleClear} sx={{ minWidth: 120 }}>
-            Clear Chat
-          </Button>
+            <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{
+                  borderRadius: 3,
+                  fontWeight: 700,
+                  px: 3,
+                  boxShadow: "0 2px 8px 0 rgba(95,111,255,0.10)",
+                  background: "linear-gradient(120deg, #5f6fff 60%, #00e6d8 100%)"
+                }}
+              >
+                Send
+              </Button>
+            </motion.div>
+          </motion.form>
+          <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleClear}
+              sx={{
+                minWidth: 120,
+                borderRadius: 3,
+                fontWeight: 700,
+                px: 2,
+                background: "rgba(255,255,255,0.7)",
+                boxShadow: "0 2px 8px 0 rgba(0,230,216,0.08)"
+              }}
+            >
+              Clear Chat
+            </Button>
+          </motion.div>
         </Stack>
       </Box>
     </Container>
