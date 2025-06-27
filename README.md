@@ -16,6 +16,8 @@ A comprehensive AI-powered mental health therapy tool that provides empathetic, 
 ### 🏥 Healthcare Navigation (NEW!)
 - **AI Symptom Analysis**: Intelligent symptom assessment with urgency classification
 - **Healthcare Provider Finder**: Find doctors, therapists, and specialists by location and specialty
+  - **Fallback Demo Providers**: If the BetterDoctor API is unreachable or no API key is set, the app will always show demo providers so users never see an empty result.
+  - **Enable Real Providers**: To use real provider data, obtain a BetterDoctor API key and set it in your backend environment (see below).
 - **Insurance Coverage Checker**: Verify insurance coverage for specific services
 - **Cost Estimation Engine**: Get transparent cost estimates for healthcare services
 - **Comprehensive Healthcare Guidance**: End-to-end healthcare navigation with provider recommendations
@@ -26,7 +28,7 @@ A comprehensive AI-powered mental health therapy tool that provides empathetic, 
 - **CORS Support**: Cross-origin resource sharing for web frontend
 - **Offline Capabilities**: Speech processing without external API dependencies
 - **Responsive UI**: Modern, futuristic interface with animations and glassmorphism
-- **Healthcare APIs Integration**: BetterDoctor, healthcare.gov, and insurance provider APIs
+- **Healthcare APIs Integration**: BetterDoctor, healthcare.gov, and insurance provider APIs (optional)
 
 ## 🚀 Quick Start
 
@@ -132,6 +134,8 @@ Open your browser and navigate to `http://localhost:5173`
 #### 🏥 Healthcare Navigation (NEW!)
 - **Symptom Analysis**: Describe your symptoms and get AI-powered analysis with urgency levels
 - **Provider Search**: Find healthcare providers by specialty, location, and insurance
+  - **Demo Providers**: If real provider APIs are unavailable, demo providers will always be shown.
+  - **Enable Real Providers**: Set a valid BetterDoctor API key in your backend environment to enable real provider search.
 - **Cost Estimation**: Get transparent cost estimates for healthcare services
 - **Insurance Checking**: Verify coverage for specific medical services
 - **Comprehensive Guidance**: Get complete healthcare navigation with provider recommendations
@@ -172,7 +176,7 @@ The AI uses 12 different therapeutic styles:
 
 ### Healthcare Navigation (NEW!)
 - `POST /analyze-symptoms` - AI-powered symptom analysis
-- `POST /find-doctors` - Find healthcare providers
+- `POST /find-doctors` - Find healthcare providers (returns demo providers if API is unreachable)
 - `POST /check-insurance` - Check insurance coverage
 - `POST /estimate-costs` - Estimate healthcare costs
 - `POST /healthcare-navigation` - Comprehensive healthcare guidance
@@ -217,7 +221,7 @@ PulsePath-AI-Therapy-Tool/
 - **Backend**: Flask (Python), TensorFlow, OpenAI GPT-4
 - **Frontend**: React, Material-UI, Framer Motion
 - **Speech**: Vosk (STT), pyttsx3 (TTS)
-- **Healthcare APIs**: BetterDoctor, healthcare.gov, insurance providers
+- **Healthcare APIs**: BetterDoctor (optional), healthcare.gov, insurance providers
 - **Authentication**: JWT
 - **Build Tool**: Vite
 
@@ -263,26 +267,31 @@ ZIPCODE_API_KEY=your-zipcode-api-key
 
 ## 🐛 Troubleshooting
 
-### Common Issues
+### Provider Search (Find Doctors) Issues
+- If you see only demo providers, the BetterDoctor API is unreachable or no API key is set.
+- To enable real provider search, get a BetterDoctor API key and set it in your backend environment:
+  ```bash
+  export BETTERDOCTOR_API_KEY="your-betterdoctor-api-key"
+  python app.py
+  ```
+- If the API is deprecated or unreachable, the app will always show demo providers for a seamless user experience.
 
-**Backend won't start:**
-- Ensure Python virtual environment is activated
-- Check that all dependencies are installed: `pip install -r requirements.txt`
-- Verify OpenAI API key is set correctly
-
-**Frontend won't start:**
-- Ensure Node.js dependencies are installed: `npm install`
-- Check for port conflicts on 5173
-
-**Healthcare features not working:**
-- Verify healthcare API keys are configured (optional)
-- Check network connectivity for external API calls
-- Fallback data will be used if APIs are unavailable
-
-**Speech features not working:**
-- Ensure microphone permissions are granted
-- Check that Vosk model is downloaded correctly
-- Verify audio drivers are working
+### General Issues
+- **Backend won't start:**
+  - Ensure Python virtual environment is activated
+  - Check that all dependencies are installed: `pip install -r requirements.txt`
+  - Verify OpenAI API key is set correctly
+- **Frontend won't start:**
+  - Ensure Node.js dependencies are installed: `npm install`
+  - Check for port conflicts on 5173
+- **Healthcare features not working:**
+  - Verify healthcare API keys are configured (optional)
+  - Check network connectivity for external API calls
+  - Fallback data will be used if APIs are unavailable
+- **Speech features not working:**
+  - Ensure microphone permissions are granted
+  - Check that Vosk model is downloaded correctly
+  - Verify audio drivers are working
 
 ### Getting Help
 - Check the console for error messages
