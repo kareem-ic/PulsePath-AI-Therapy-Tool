@@ -1,6 +1,10 @@
-node_modules/venv/
+node_modules/
+.next/
+.env*
 __pycache__/
 *.py[cod]
-.ipynb_checkpoints/
-node_modules/
+venv/
+target/
 .DS_Store
+.idea/
+.vscode/

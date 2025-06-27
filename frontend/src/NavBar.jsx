@@ -37,28 +37,36 @@ export default function NavBar() {
           PulsePath AI Therapy
         </Typography>
         <Box sx={{ display: "flex", gap: 1 }}>
-          <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
-            <Button color="inherit" component={Link} to="/tts" sx={{ fontWeight: 600, borderRadius: 3 }}>
-              TTS
-            </Button>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
-            <Button color="inherit" component={Link} to="/stt" sx={{ fontWeight: 600, borderRadius: 3 }}>
-              STT
-            </Button>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
-            <Button color="inherit" component={Link} to="/conversation" sx={{ fontWeight: 600, borderRadius: 3 }}>
-              Conversation
-            </Button>
-          </motion.div>
-          {loggedIn ? (
-            <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
-              <Button color="inherit" onClick={handleLogout} sx={{ fontWeight: 600, borderRadius: 3 }}>
-                Logout
-              </Button>
-            </motion.div>
-          ) : (
+          {loggedIn && (
+            <>
+              <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
+                <Button color="inherit" component={Link} to="/tts" sx={{ fontWeight: 600, borderRadius: 3 }}>
+                  TTS
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
+                <Button color="inherit" component={Link} to="/stt" sx={{ fontWeight: 600, borderRadius: 3 }}>
+                  STT
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
+                <Button color="inherit" component={Link} to="/conversation" sx={{ fontWeight: 600, borderRadius: 3 }}>
+                  Conversation
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
+                <Button color="inherit" component={Link} to="/healthcare" sx={{ fontWeight: 600, borderRadius: 3 }}>
+                  Healthcare
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
+                <Button color="inherit" onClick={handleLogout} sx={{ fontWeight: 600, borderRadius: 3 }}>
+                  Logout
+                </Button>
+              </motion.div>
+            </>
+          )}
+          {!loggedIn && (
             <>
               <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.97 }}>
                 <Button color="inherit" component={Link} to="/login" sx={{ fontWeight: 600, borderRadius: 3 }}>

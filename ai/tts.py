@@ -1,18 +1,34 @@
-"""
-Simple wrapper around Coqui-TTS.
-Call speak("Hello") to hear the phrase out loud.
-"""
+import pyttsx3
+import io
+import wave
+import struct
 
-import numpy as np
-import sounddevice as sd
-from TTS.api import TTS  
-
-_tts = TTS("tts_models/en/jenny/jenny")
-
-def speak(text: str, samplerate: int = 24_000):
-    """Synthesize text to speech and play it blocking."""
-    if not text.strip():
-        return
-    wav = _tts.tts(text)
-    sd.play(np.asarray(wav), samplerate)
-    sd.wait()             
+def synthesize(text: str) -> bytes:
+    # Initialize the TTS engine
+    engine = pyttsx3.init()
+    
+    # Set properties (optional)
+    engine.setProperty('rate', 150)    # Speed of speech
+    engine.setProperty('volume', 0.9)  # Volume (0.0 to 1.0)
+    
+    # Get available voices and set a female voice if available
+    voices = engine.getProperty('voices')
+    for voice in voices:
+        if 'female' in voice.name.lower():
+            engine.setProperty('voice', voice.id)
+            break
+    
+    # Create a temporary file to store the audio
+    temp_file = "temp_audio.wav"
+    engine.save_to_file(text, temp_file)
+    engine.runAndWait()
+    
+    # Read the generated WAV file
+    with open(temp_file, 'rb') as f:
+        audio_data = f.read()
+    
+    # Clean up the temporary file
+    import os
+    os.remove(temp_file)
+    
+    return audio_data

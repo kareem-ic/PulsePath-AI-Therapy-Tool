@@ -28,3 +28,7 @@ export async function apiRequest(endpoint, method = "GET", body = null, isBlob =
   if (isBlob) return res.blob();
   return res.json();
 }
+
+export { apiRequest as apiCall };
+
+

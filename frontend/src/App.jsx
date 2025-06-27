@@ -5,6 +5,7 @@ import Signup from "./Signup";
 import TTS from "./TTS";
 import STT from "./STT";
 import Conversation from "./Conversation";
+import HealthcareNavigation from "./HealthcareNavigation";
 import { getToken } from "./api";
 
 function PrivateRoute({ children }) {
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/tts" element={<PrivateRoute><TTS /></PrivateRoute>} />
         <Route path="/stt" element={<PrivateRoute><STT /></PrivateRoute>} />
         <Route path="/conversation" element={<PrivateRoute><Conversation /></PrivateRoute>} />
+        <Route path="/healthcare" element={<PrivateRoute><HealthcareNavigation /></PrivateRoute>} />
         <Route path="*" element={<Navigate to="/conversation" />} />
       </Routes>
     </Router>
