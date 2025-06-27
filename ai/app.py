@@ -604,12 +604,25 @@ class HealthcareProviderService:
         self.zipcode_api_key = os.environ.get("ZIPCODE_API_KEY")
         
     def find_doctors(self, specialty: str, location: str, insurance: str = None) -> List[Dict]:
-        """Find doctors using BetterDoctor API or fallback to healthcare.gov"""
+        """Find doctors using BetterDoctor API or fallback to healthcare.gov, or fallback demo data if no results."""
         try:
+            providers = []
             if self.betterdoctor_api_key:
-                return self._search_betterdoctor(specialty, location, insurance)
+                providers = self._search_betterdoctor(specialty, location, insurance)
+                if providers:
+                    logger.info(f"Found {len(providers)} providers from BetterDoctor API for {specialty} in {location}")
+                else:
+                    logger.warning(f"No providers found from BetterDoctor API for {specialty} in {location}")
             else:
-                return self._search_healthcare_gov(specialty, location)
+                providers = self._search_healthcare_gov(specialty, location)
+                if providers:
+                    logger.info(f"Found {len(providers)} providers from healthcare.gov for {specialty} in {location}")
+                else:
+                    logger.warning(f"No providers found from healthcare.gov for {specialty} in {location}")
+            if not providers:
+                providers = self._get_fallback_providers(specialty, location)
+                logger.info(f"Returning fallback providers for {specialty} in {location}")
+            return providers
         except Exception as e:
             logger.error(f"Error finding doctors: {e}")
             return self._get_fallback_providers(specialty, location)
