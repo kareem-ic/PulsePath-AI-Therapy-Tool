@@ -8,3 +8,6 @@ target/
 .DS_Store
 .idea/
 .vscode/
+ai/combined.csv
+ai/training.1600000.processed.noemoticon.csv
+ai/s140.csv
